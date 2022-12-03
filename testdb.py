@@ -13,3 +13,4 @@ if __name__ == '__main__':
     print(db_ins)
     print(db_ins.mutate('select * from floatingmusic.user'))
     print(db_ins.query(['_id', 'wx_nickname'], 'floatingmusic.user'))
+    print(db_ins.query_by_rawsql('select * from floatingmusic.user'))

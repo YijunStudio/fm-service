@@ -59,7 +59,7 @@ class DBInstance:
                 )
             else:
                 raise Exception
-            self.connection = self.pool.connection()
+            # self.connection = self.pool.connection()
         except Exception as e:
             # logger.error('Open connection error: %s'%e)
             raise
@@ -105,7 +105,6 @@ class DBInstance:
                 # logger.info("Close db connection")
                 db.close()
 
-
     def query(self, cols, view, conditions=[], orderby=[]):
         self.connection = self.pool.connection()
         db = self.connection
@@ -137,6 +136,39 @@ class DBInstance:
                         item[cols[index]] = res[itemIndex][index]
                     arr.append(item)
             return (True, arr)
+        except MySQLError as err:
+            if sql:
+                # logger.error("SQL: %s [%s]" % (sql, err.args[0]))
+                return (False, [err.args[0], sql])
+            # logger.error("%s" % (str(err)))
+            return (False, [err.args[0]])
+        except Error as err:
+            if sql:
+                # logger.error("SQL: %s [%s]" % (sql, err.args[0]))
+                return (False, [err.args[0], sql])
+            # logger.error("%s" % (str(err)))
+            return (False, [err.args[0]])
+        finally:
+            if db:
+                # 关闭数据库连接
+                # logger.info("Close db connection")
+                db.close()
+
+    def query_by_rawsql(self, sqlphase):
+        self.connection = self.pool.connection()
+        db = self.connection
+        sql = None
+        try:
+            # 打开数据库连接
+            # logger.info("Open db connection: %s" % (view))
+            # 使用cursor()方法获取操作游标
+            cursor = db.cursor()
+        
+            # 执行SQL语句
+            cursor.execute(sqlphase)
+            # 获取所有记录列表
+            res = cursor.fetchall()
+            return (True, res)
         except MySQLError as err:
             if sql:
                 # logger.error("SQL: %s [%s]" % (sql, err.args[0]))
