@@ -18,13 +18,13 @@ env = os.environ
 
 from dbutils.pooled_db import PooledDB, SharedDBConnection
 
-# print(os.environ.get('DB_USER'))
+print('21', os.environ.get('DB_HOST'))
 
 class DBInstance:
     def __init__(self, database_type):
         try:
             self.type = database_type;
-            if database_type == 'mysql':
+            if self.type == 'mysql':
                 self.pool = PooledDB(
                     creator=pymysql,
                     maxconnections=None,
@@ -41,7 +41,7 @@ class DBInstance:
                     database=env.get('DB_NAME'),
                     charset="utf8",
                 )
-            elif database_type == 'postgres':
+            elif self.type == 'postgres':
                 self.pool = PooledDB(
                     creator=psycopg2,
                     maxconnections=None,
@@ -56,22 +56,22 @@ class DBInstance:
                     user=env.get('DB_USER'),
                     password=env.get('DB_PASS'),
                     database=env.get('DB_NAME'),
-                    charset="utf8",
                 )
             else:
                 raise Exception
             self.connection = self.pool.connection()
         except Exception as e:
-            logger.error('Open connection error: %s'%e)
+            # logger.error('Open connection error: %s'%e)
             raise
 
     def mutate(self, sqlphase):
+        self.connection = self.pool.connection()
         db = self.connection
         sql = None
         try:
-            logger.info("Open db connection: %s" % (sqlphase))
+            # logger.info("Open db connection: %s" % (sqlphase))
             # 使用cursor()方法获取操作游标
-            cursor = self.cursor()
+            cursor = db.cursor()
 
             # SQL 更新语句
             sql = sqlphase
@@ -86,34 +86,35 @@ class DBInstance:
             if db:
                 db.rollback()
             if sql:
-                logger.error("SQL: %s [%s]" % (sql, err.args[0]))
+                # logger.error("SQL: %s [%s]" % (sql, err.args[0]))
                 return (False, [err.args[0], sql])
-            logger.error("%s" % (str(err)))
+            # logger.error("%s" % (str(err)))
             return (False, [err.args[0]])
         except Error as err:
             # 发生错误时回滚
             if db:
                 db.rollback()
             if sql:
-                logger.error("SQL: %s [%s]" % (sql, err.args[0]))
+                # logger.error("SQL: %s [%s]" % (sql, err.args[0]))
                 return (False, [err.args[0], sql])
-            logger.error("%s" % (str(err)))
+            # logger.error("%s" % (str(err)))
             return (False, [err.args[0]])
         finally:
             if db:
                 # 关闭数据库连接
-                logger.info("Close db connection")
+                # logger.info("Close db connection")
                 db.close()
 
 
     def query(self, cols, view, conditions=[], orderby=[]):
+        self.connection = self.pool.connection()
         db = self.connection
         sql = None
         try:
             # 打开数据库连接
-            logger.info("Open db connection: %s" % (view))
+            # logger.info("Open db connection: %s" % (view))
             # 使用cursor()方法获取操作游标
-            cursor = self.cursor()
+            cursor = db.cursor()
 
             # SQL 查询语句
             sql = "SELECT %s FROM %s" % (', '.join(cols), view)
@@ -138,44 +139,45 @@ class DBInstance:
             return (True, arr)
         except MySQLError as err:
             if sql:
-                logger.error("SQL: %s [%s]" % (sql, err.args[0]))
+                # logger.error("SQL: %s [%s]" % (sql, err.args[0]))
                 return (False, [err.args[0], sql])
-            logger.error("%s" % (str(err)))
+            # logger.error("%s" % (str(err)))
             return (False, [err.args[0]])
         except Error as err:
             if sql:
-                logger.error("SQL: %s [%s]" % (sql, err.args[0]))
+                # logger.error("SQL: %s [%s]" % (sql, err.args[0]))
                 return (False, [err.args[0], sql])
-            logger.error("%s" % (str(err)))
+            # logger.error("%s" % (str(err)))
             return (False, [err.args[0]])
         finally:
             if db:
                 # 关闭数据库连接
-                logger.info("Close db connection")
+                # logger.info("Close db connection")
                 db.close()
             
 
-POOL = PooledDB(
-    creator=pymysql,
-    maxconnections=None,
-    mincached=2,
-    maxcached=8,
-    blocking=True,
-    maxusage=None,
-    setsession=[],
-    ping=1,
-    host=env.get('DB_HOST'),
-    port=int(env.get('DB_PORT')),
-    user=env.get('DB_USER'),
-    password=env.get('DB_PASS'),
-    database=env.get('DB_NAME'),
-    # host="localhost",
-    # port=6612,
-    # user="cranemagic",
-    # password="cranemagic++=20211001",
-    # database="cranemagic",
-    charset="utf8",
-)
+# POOL = PooledDB(
+#     creator=pymysql,
+#     maxconnections=None,
+#     mincached=2,
+#     maxcached=8,
+#     blocking=True,
+#     maxusage=None,
+#     setsession=[],
+#     ping=1,
+#     host=env.get('DB_HOST'),
+#     port=int(env.get('DB_PORT')),
+#     user=env.get('DB_USER'),
+#     password=env.get('DB_PASS'),
+#     database=env.get('DB_NAME'),
+#     # host="localhost",
+#     # port=6612,
+#     # user="cranemagic",
+#     # password="cranemagic++=20211001",
+#     # database="cranemagic",
+#     charset="utf8",
+# )
+
 # POOL = LocalProxy(current_app.pool)
 # print(POOL)
 
@@ -281,7 +283,7 @@ def mutate(hostaddr, usr, pwd, hostport, database, sqlphase):
         #                     password=pwd, port=hostport, db=database)
         
         db = POOL.connection()
-        logger.info("Open db connection: %s" % (sqlphase))
+        # logger.info("Open db connection: %s" % (sqlphase))
         # 使用cursor()方法获取操作游标
         cursor = db.cursor()
 
@@ -306,15 +308,15 @@ def mutate(hostaddr, usr, pwd, hostport, database, sqlphase):
         # 关闭数据库连接
         # db.close()
         if sql:
-            logger.error("SQL: %s [%s]" % (sql, err.args[0]))
+            # logger.error("SQL: %s [%s]" % (sql, err.args[0]))
             return (False, [err.args[0], sql])
-        logger.error("%s" % (str(err)))
+        # logger.error("%s" % (str(err)))
         return (False, [err.args[0]])
         return "Error: %s" % sql
     finally:
         if db:
             # 关闭数据库连接
-            logger.info("Close db connection")
+            # logger.info("Close db connection")
             db.close()
 
 
@@ -327,7 +329,7 @@ def query(hostaddr, usr, pwd, hostport, database, cols, view, conditions=[], ord
         #                     password=pwd, port=hostport, db=database)
         
         db = POOL.connection()
-        logger.info("Open db connection: %s" % (view))
+        # logger.info("Open db connection: %s" % (view))
         # 使用cursor()方法获取操作游标
         cursor = db.cursor()
 
@@ -359,15 +361,15 @@ def query(hostaddr, usr, pwd, hostport, database, cols, view, conditions=[], ord
         # db.close()
         # print(err.args[0], type(err))
         if sql:
-            logger.error("SQL: %s [%s]" % (sql, err.args[0]))
+            # logger.error("SQL: %s [%s]" % (sql, err.args[0]))
             return (False, [err.args[0], sql])
-        logger.error("%s" % (str(err)))
+        # logger.error("%s" % (str(err)))
         return (False, [err.args[0]])
         return "Error: unable to fetch data"
     finally:
         if db:
             # 关闭数据库连接
-            logger.info("Close db connection")
+            # logger.info("Close db connection")
             db.close()
 
 
