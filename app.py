@@ -11,8 +11,10 @@ app = Flask(__name__)
 app.config.from_pyfile('config.py')
 
 from yourBlueprint import yourBlueprint_bp
+from floatingMusic import floatingMusic_bp
 
 app.register_blueprint(yourBlueprint_bp, url_prefix='/yourBlueprint')
+app.register_blueprint(floatingMusic_bp, url_prefix='/floatingMusic')
 
 CORS(app, support_credentials=True)
 

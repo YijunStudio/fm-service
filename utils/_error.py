@@ -9,6 +9,8 @@ def err(status=None, errcode=None, msg=None, data=None):
 DEFAULT_ERROR = err(500, 99999, 'InternalServerError')
 UNKNOWN_ERROR = err(500, 99999, 'UNKNOWN_ERROR')
 NOTFOUND_ERROR = err(404, 99999, 'NOTFOUND_ERROR')
+DATABASE_ERROR = err(202, 99999, 'DATABASE_ERROR')
+REQUEST_INVAILD = err(401, 99999, 'REQUEST_INVAILD')
 
 LOGIN_FAILED = err(401, 20001, 'LOGIN_FAILED')
 NOITEM_ERROR = err(202, 20002, 'DatabaseNoTargetItem')
@@ -32,7 +34,7 @@ USERNAME_INVAILD = err(403, 20017, 'USERNAME_INVAILD')
 WRONG_PHONE = err(403, 20018, 'WRONG_PHONE')
 WRONG_USERID = err(403, 20019, 'WRONG_USERID')
 
-DATABASE_ERROR = {}
+# DATABASE_ERROR = {}
 # for error in dir(ER):
 #     if isinstance(error, str) and error[0] != '_':
 #         DATABASE_ERROR = {**DATABASE_ERROR, **{ getattr(ER, error): err(403, '3%s' % getattr(ER, error), error) }}
