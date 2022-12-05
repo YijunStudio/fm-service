@@ -26,14 +26,8 @@ if __name__ == '__main__':
     insert into floatingmusic.key(name, topic_id) values('我emo了', 8),('上头', 8),('灵魂得到升华', 8),('扎劲', 8),('飘飘然', 8),('少女心泛滥', 8),('温暖', 8),('冷酷', 8),('好吃', 8),('来自呼和浩特的草原', 8),('来自喜马拉雅的泉水', 8),('是心动的感觉', 8),('勇者斗恶龙', 8),('elegant！', 8);
     """
     rawsql = """
-    select result.key_id as key_id, IFNULL(result.count, 0) AS count from key left join(SELECT count(*) AS count,
-    submission.project_id,
-    submission.topic_id,
-    submission.key_id
-   FROM submission
-  GROUP BY submission.project_id, submission.topic_id, submission.key_id
-  ORDER BY submission.project_id, submission.topic_id, submission.key_id) result on key."_id" = result.key_id
+    select * from floatingmusic.view_topic
     """
     # print(db_ins.mutate(sql))
-    print(db_ins.query(['_id', 'wx_nickname'], 'floatingmusic.user'))
+    print(db_ins.query(['_id'], 'floatingmusic.topic'))
     print(db_ins.query_by_rawsql(rawsql))

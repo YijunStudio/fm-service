@@ -12,9 +12,11 @@ app.config.from_pyfile('config.py')
 
 from yourBlueprint import yourBlueprint_bp
 from floatingMusic import floatingMusic_bp
+from wxService import wxService_bp
 
 app.register_blueprint(yourBlueprint_bp, url_prefix='/yourBlueprint')
 app.register_blueprint(floatingMusic_bp, url_prefix='/floatingMusic')
+app.register_blueprint(wxService_bp, url_prefix='/wxService')
 
 CORS(app, support_credentials=True)
 

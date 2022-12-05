@@ -27,3 +27,4 @@ dbInstance = DBInstance('postgres')
 
 from floatingMusic.info import *
 from floatingMusic.op import *
+from floatingMusic.info_project import *
