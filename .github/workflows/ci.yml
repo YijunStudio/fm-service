@@ -57,4 +57,5 @@ jobs:
             sudo docker run --name ${{ env.docker-image-name }}-dev -p ${{ env.deploy-port }}:8888 \
             -e DB_HOST=${{ env.DB_HOST }} -e DB_PORT=${{ env.DB_PORT }} -e DB_USER=${{ env.DB_USER }} -e DB_PASS=${{ env.DB_PASS }} -e DB_NAME=${{ env.DB_NAME }} \
             -e APPID=${{ env.APPID }} -e APPSECRET=${{ env.APPSECRET }} \
+            --restart=always \
             -d ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.docker-image-name }}-dev:latest

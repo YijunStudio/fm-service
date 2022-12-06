@@ -14,7 +14,7 @@ def update_user(*args, **kwargs):
     (current_user, *otherArgs) = args;
     if not current_user:
         err_resp(TOKEN_INVAILD, request.path)
-    print(request.path, current_user)
+    print(request.path, current_user.get('_id'), current_user.get('wx_nickname', None))
     u_id = current_user.get('_id', None)
     reqParams = request.args
     reqJson = request.get_json(silent=True)

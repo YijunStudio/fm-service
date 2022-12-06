@@ -34,7 +34,7 @@ def after_request(resp):
 @app.route('/')
 def home():
     # error(LOGIN_FAILED)
-	return 'Hello Flask With Blueprint'
+	return 'Hello FloatingMusic'
 
 
 if __name__ == '__main__':
