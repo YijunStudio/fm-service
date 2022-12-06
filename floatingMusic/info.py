@@ -20,7 +20,7 @@ def get_topic(*args, **kwargs):
     (current_user, *otherArgs) = args;
     if not current_user:
         err_resp(TOKEN_INVAILD, request.path)
-    print(request.path, current_user)
+    print(request.path, current_user.get('_id'), current_user.get('wx_nickname', None))
     reqParams = request.args
     # print(reqParams)
     t_id = int(reqParams.get('t_id', None))
@@ -42,7 +42,7 @@ def get_topic_keys(*args, **kwargs):
     (current_user, *otherArgs) = args;
     if not current_user:
         err_resp(TOKEN_INVAILD, request.path)
-    print(request.path, current_user)
+    print(request.path, current_user.get('_id'), current_user.get('wx_nickname', None))
     reqParams = request.args
     # print(reqParams)
     t_id = int(reqParams.get('t_id', None))
@@ -64,7 +64,7 @@ def get_topic_result(*args, **kwargs):
     (current_user, *otherArgs) = args;
     if not current_user:
         err_resp(TOKEN_INVAILD, request.path)
-    print(request.path, current_user)
+    print(request.path, current_user.get('_id'), current_user.get('wx_nickname', None))
     reqParams = request.args
     # print(reqParams)
     p_id = int(reqParams.get('p_id', None))
@@ -87,7 +87,7 @@ def check_topic_submission(*args, **kwargs):
     (current_user, *otherArgs) = args;
     if not current_user:
         err_resp(TOKEN_INVAILD, request.path)
-    print(request.path, current_user)
+    print(request.path, current_user.get('_id'), current_user.get('wx_nickname', None))
     u_id = current_user.get('_id', None)
     reqParams = request.args
     # print(reqParams)
