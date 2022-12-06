@@ -5,7 +5,7 @@ ENV TZ=Asia/Shanghai
 RUN apt-get update
 # RUN apt-get install ffmpeg libsm6 libxext6  -y
 
-RUN --mount=type=secret,id=APPID export APPID=$(cat /run/secrets/APPID)
+RUN --mount=type=secret,id=APPID export APPID=$(cat /run/secrets/APPID) && cat /run/secrets/APPID
 RUN --mount=type=secret,id=APPSECRET export APPSECRET=$(cat /run/secrets/APPSECRET)
 RUN --mount=type=secret,id=DB_HOST export DB_HOST=$(cat /run/secrets/DB_HOST)
 RUN --mount=type=secret,id=DB_PORT export DB_PORT=$(cat /run/secrets/DB_PORT)
