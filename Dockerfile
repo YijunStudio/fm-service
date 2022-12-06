@@ -8,18 +8,10 @@ RUN apt-get update
 RUN --mount=type=secret,id=APPID export APPID=$(cat /run/secrets/APPID) && echo $APPID
 RUN --mount=type=secret,id=APPSECRET export APPSECRET=$(cat /run/secrets/APPSECRET)
 RUN --mount=type=secret,id=DB_HOST export DB_HOST=$(cat /run/secrets/DB_HOST)
-RUN --mount=type=secret,id=DB_PORT export DB_PORT=$(cat /run/secrets/DB_PORT)
+RUN --mount=type=secret,id=DB_PORT export DB_PORT=$(cat /run/secrets/DB_PORT) && echo $DB_PORT
 RUN --mount=type=secret,id=DB_USER export DB_USER=$(cat /run/secrets/DB_USER)
 RUN --mount=type=secret,id=DB_PASS export DB_PASS=$(cat /run/secrets/DB_PASS)
 RUN --mount=type=secret,id=DB_NAME export DB_NAME=$(cat /run/secrets/DB_NAME)
-
-RUN echo $APPID  && \
-    echo $APPSECRET && \
-    echo $DB_HOST && \
-    echo $DB_PORT && \
-    echo $DB_USER && \
-    echo $DB_PASS && \
-    echo $DB_NAME
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 COPY requirements.txt ./
