@@ -23,10 +23,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     steps:
-      - name: Check APPID & APPSECRET for dev
-        run:  |
-          echo "$APPID"
-          echo "$APPSECRET"
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
