@@ -21,8 +21,6 @@ def get_projects(*args, **kwargs):
     # print(status, res)
     if not status:
         err_resp(DATABASE_ERROR, request.path)
-    if len(res) != 1:
-        err_resp(NOITEM_ERROR, request.path)
     resp(response_body(200, request.path, res))
 
 @floatingMusic_bp.route('/getProject', methods=["GET"])
