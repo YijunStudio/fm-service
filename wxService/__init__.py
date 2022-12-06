@@ -33,13 +33,13 @@ def get_openid(js_code):
 
 
 def get_user_by_openid(openid, unionid):
-    print('get_user_by_openid')
+    # print('get_user_by_openid')
 
     user = dict()
     user['wx_openid'], user['wx_unionid'] = openid, unionid
     
     (status, res) = dbInstance.query(['_id', 'wx_openid', 'wx_nickname', 'wx_phone', 'wx_unionid'], 'floatingmusic.user', ['wx_openid=\'%s\'' % openid])
-    print(res)
+    # print(res)
     if not status:
         return (False, user)
     if not len(res):
