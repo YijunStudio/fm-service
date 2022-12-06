@@ -5,7 +5,7 @@ on:
     branches: [ production ]
 
 env:
-  deploy-port: 5051
+  deploy-port: 5089
   docker-image-name: ${{ github.event.repository.name }}
   APPID: ${{ secrets.APPID }}
   APPSECRET: ${{ secrets.APPSECRET }}
