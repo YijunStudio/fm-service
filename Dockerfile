@@ -7,21 +7,6 @@ RUN apt-get update
 
 RUN --mount=type=secret,id=APPID export APPID=$(cat /run/secrets/APPID)
 
-RUN --mount=type=secret,id=APPID \
-    export APPID=$(cat /run/secrets/APPID) && \
-    --mount=type=secret,id=APPSECRET \
-    export APPSECRET=$(cat /run/secrets/APPSECRET) && \
-    --mount=type=secret,id=DB_HOST \
-    export DB_HOST=$(cat /run/secrets/DB_HOST) && \
-    --mount=type=secret,id=DB_PORT \
-    export DB_PORT=$(cat /run/secrets/DB_PORT) && \
-    --mount=type=secret,id=DB_USER \
-    export DB_USER=$(cat /run/secrets/DB_USER) && \
-    --mount=type=secret,id=DB_PASS \
-    export DB_PASS=$(cat /run/secrets/DB_PASS) && \
-    --mount=type=secret,id=DB_NAME \
-    export DB_NAME=$(cat /run/secrets/DB_NAME) && \
-
 RUN echo $APPID  && \
     echo $APPSECRET && \
     echo $DB_HOST && \
