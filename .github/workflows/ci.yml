@@ -41,14 +41,6 @@ jobs:
         with:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.docker-image-name }}-dev:latest
-          secrets: |
-            "DB_HOST=${{ env.DB_HOST }}"
-            "DB_PORT=${{ env.DB_PORT }}"
-            "DB_USER=${{ env.DB_USER }}"
-            "DB_PASS=${{ env.DB_PASS }}"
-            "DB_NAME=${{ env.DB_NAME }}"
-            "APPID=${{ env.APPID }}"
-            "APPSECRET=${{ env.APPSECRET }}"
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
