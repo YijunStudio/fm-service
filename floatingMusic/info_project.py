@@ -73,19 +73,24 @@ def if_project_admin(*args, **kwargs):
     (current_user, *otherArgs) = args;
     if not current_user:
         err_resp(TOKEN_INVAILD, request.path)
+    u_id = current_user.get('_id')
     print(request.path, current_user)
     reqParams = request.args
     # print(reqParams)
     p_id = int(reqParams.get('p_id', None))
     if not p_id:
         err_resp(REQUEST_INVAILD, request.path)
-    (status, res) = dbInstance.query(['project_id', 'user_id'], 'project_admin', ['project_id=%d' % p_id])
+    (status, res) = dbInstance.query(['project_id', 'user_id'], 'project_admin', ['project_id=%d' % p_id, 'user_id=%d' % u_id])
     # print(status, res)
     if not status:
         err_resp(DATABASE_ERROR, request.path)
     if len(res) == 0:
-        err_resp(NOITEM_ERROR, request.path)
-    resp(response_body(200, request.path, res))
+        ifProjectAdmin = False
+    elif len(res) == 1:
+        ifProjectAdmin = True
+    else:
+        err_resp(DATABASE_ERROR, request.path)
+    resp(response_body(200, request.path, ifProjectAdmin))
 
 # @floatingMusic_bp.route('/getTopicResult', methods=["GET"])
 # @token_required
