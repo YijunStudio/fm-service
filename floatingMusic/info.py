@@ -114,7 +114,7 @@ def get_topic_result_wordcloud(*args, **kwargs):
             freqs[item['key_name']] = 1
     result = WordCloud(
         font_path='./HanaminA.ttf', 
-        width=width*3, height=height*3, prefer_horizontal=0.98,
+        width=width*2, height=height*2, prefer_horizontal=0.98,
         background_color=None,
         mode='RGBA',
         colormap='GnBu',
