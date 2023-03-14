@@ -30,7 +30,7 @@ def get_topic(*args, **kwargs):
     t_id = int(reqParams.get('t_id', None))
     if not t_id:
         err_resp(REQUEST_INVAILD, request.path)
-    (status, res) = dbInstance.query(['_id', 'name', 'status', 'max_selection_count'], 'topic', ['_id=%d' % t_id], ['_id asc'])
+    (status, res) = dbInstance.query(['_id', 'name', 'status', 'max_selection_count', 'caption'], 'topic', ['_id=%d' % t_id], ['_id asc'])
     # print(status, res)
     if not status:
         err_resp(DATABASE_ERROR, request.path)
